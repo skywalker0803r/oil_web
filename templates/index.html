@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html >
-<!--From https://codepen.io/frytyler/pen/EGdtg-->
+
 <head>
   <meta charset="UTF-8">
   <title>輕油成份預測</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
- <div class="login">
-	<h1>輕油成份分析</h1>
+ 
+ <div class="login">  
+  <h1 id ='title'>輕油成份分析</h1>
 
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-    	<input type="text" name="T10" placeholder="T10" required="required" />
-      <input type="text" name="T50" placeholder="T50" required="required" />
-		  <input type="text" name="T90" placeholder="T90" required="required" />
-      <input type="text" name="N+A" placeholder="N+A" required="required" />
+  <br>
+
+    <form id = 'input' action="{{ url_for('predict')}}"method="post">
+      <input type="text" name="T10" placeholder="T10 range(55~116)" required="required" />
+      <input type="text" name="T50" placeholder="T50 range(84~131)" required="required" />
+      <input type="text" name="T90" placeholder="T90 range(122~198)" required="required" />
+      <input type="text" name="N+A" placeholder="N+A range(30~65)" required="required" />
       <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
     </form>
+    
+    <br>
 
-    {% if have_button %}
-      <form action="{{ url_for('save')}}" method="get">
-            {{ prediction_text }}
-        <button type="submit">save</button>
-      </form>
-    {% endif %}
-
- </div>
+    <div id = 'error'>
+      {% if error_msg %}
+        {{error_msg}}
+      {% endif %}
+    </div>
+    
+    <div id = 'output'>
+      {% if have_button %}
+        <form action="{{ url_for('save')}}" method="get">
+          {{ table|safe }}
+          <br>
+          <button type="submit">save</button>
+        </form>
+      {% endif %}   
+    
+    </div>
 </body>
 </html>
