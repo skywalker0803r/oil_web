@@ -3,15 +3,15 @@ from flask import Flask, request, jsonify, render_template ,send_file,make_respo
 import joblib
 import os
 import time
+import catboost
 import pandas as pd
 import datetime
+from utils import *
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-# model
-model = joblib.load('model.pkl')
-
+model = joblib.load('./model.pkl')
 
 # x_columns
 x_columns = ['T10','T50','T90','N+A']
