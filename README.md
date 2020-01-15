@@ -4,7 +4,7 @@
 ## Usage
 
 - To run the web :  `python app.py`
-- To change model : 將裡面的model檔案複製到跟app.py同一個資料夾底下並改名成model.pkl
+- To change model : 將`模型備份資料夾`裡面的"model檔案"複製到跟`app.py`同一個資料夾底下並改名成`model.pkl`
 
 ## Demo
 
