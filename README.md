@@ -7,6 +7,6 @@
 
 ## Demo
 
-PPO Discrete LunarLander-v2 (1200 episodes)           |  PPO Continuous BipedalWalker-v2 (4000 episodes)
+網站操作介面           |  輸出excel檔案
 :-------------------------:|:-------------------------:
-![](https://github.com/skywalker0803r/oil_web/blob/master/png/demo_1.PNG) |  ![](https://github.com/nikhilbarhate99/PPO-PyTorch/blob/master/gif/PPO_BipedalWalker-v2.gif)
+![](https://github.com/skywalker0803r/oil_web/blob/master/png/demo_1.PNG) |  ![](https://github.com/skywalker0803r/oil_web/blob/master/png/demo_2.PNG)
