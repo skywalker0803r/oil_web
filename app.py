@@ -51,14 +51,20 @@ def save():
 @app.route('/predict',methods=['POST'])
 def predict():
     # get features
-    features = np.array([float(x) for x in request.form.values()]).reshape(1, -1)
+    features = np.array([float(x) for x in request.form.values()]).reshape(-1)
+    X = pd.DataFrame(index=[0],columns=['T10','T50','T90','N+A','P'])
+    X['T10'] = features[0]
+    X['T50'] = features[1]
+    X['T90'] = features[2]
+    X['N+A'] = features[3]
+    X['P'] = 100 - X['N+A']
     
     # check features
-    c1 = (features[0][0]<features[0][1])&(features[0][1]<features[0][2])
-    c2 = (features[0][0]>55)&(features[0][0]<116)
-    c3 = (features[0][1]>84)&(features[0][1]<131)
-    c4 = (features[0][2]>122)&(features[0][2]<198)
-    c5 = (features[0][3]>30)&(features[0][3]<65)
+    c1 = (features[0]<features[1])&(features[1]<features[2])
+    c2 = (features[0]>55)&(features[0]<116)
+    c3 = (features[1]>84)&(features[1]<131)
+    c4 = (features[2]>122)&(features[2]<198)
+    c5 = (features[3]>30)&(features[3]<65)
     
     # check features
     error = ""
@@ -78,20 +84,17 @@ def predict():
         return render_template('index.html',error_msg = error)
 
     # predict y    
-    preds = model.predict(features)[0]
-    
-    # Normalize y 
-    preds = (preds/np.sum(preds))*100
+    preds = model.predict(X)[0]
     
     # get y result_dict
     global result_dict
-    result_dict = dict(zip(y_columns,[round(v,1) for v in preds]))
+    result_dict = dict(zip(y_columns,[round(v,4) for v in preds]))
     
     # add features to result_dict
-    result_dict['T10'] = features[0][0]
-    result_dict['T50'] = features[0][1]
-    result_dict['T90'] = features[0][2]
-    result_dict['N+A'] = features[0][3]
+    result_dict['T10'] = features[0]
+    result_dict['T50'] = features[1]
+    result_dict['T90'] = features[2]
+    result_dict['N+A'] = features[3]
     
     # get result dataframe
     df = pd.DataFrame(index=['C5','C6','C7','C8','C9','C10'],columns=['NP','IP','N','A'])
@@ -115,4 +118,4 @@ def predict():
     return render_template('index.html',table = df.to_html(),have_button = 'True')
 
 if __name__ == "__main__":
-    app.run(debug = True,port = 5042)
+    app.run(debug = True,port = 5043)
